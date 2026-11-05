@@ -1,0 +1,12 @@
+{
+  "name": "sanad-health",
+  "version": "1.2.0",
+  "private": true,
+  "description": "موقع سند الصحي: صلاحيات المدير من الحساب ولوحة تحكم المشرفين",
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check server.js && node --check public/app.js"
+  },
+  "engines": {"node": ">=22.13.0"},
+  "license": "UNLICENSED"
+}
