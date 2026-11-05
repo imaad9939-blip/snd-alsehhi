@@ -7,71 +7,94 @@ document.addEventListener('DOMContentLoaded', () => {
   const submitLogin = document.getElementById('submitLogin');
   const year = document.getElementById('year');
 
-  year.textContent = new Date().getFullYear();
+  if (year) {
+    year.textContent = new Date().getFullYear();
+  }
 
-  menuToggle.addEventListener('click', () => {
-    const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
-    menuToggle.setAttribute('aria-expanded', String(!expanded));
-    menuToggle.setAttribute('aria-label', expanded ? 'فتح القائمة' : 'إغلاق القائمة');
-    mainNav.classList.toggle('is-open', !expanded);
-  });
-
-  mainNav.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', () => {
-      menuToggle.setAttribute('aria-expanded', 'false');
-      menuToggle.setAttribute('aria-label', 'فتح القائمة');
-      mainNav.classList.remove('is-open');
+  if (menuToggle && mainNav) {
+    menuToggle.addEventListener('click', () => {
+      const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
+      menuToggle.setAttribute('aria-expanded', String(!expanded));
+      menuToggle.setAttribute('aria-label', expanded ? 'فتح القائمة' : 'إغلاق القائمة');
+      mainNav.classList.toggle('is-open', !expanded);
     });
-  });
+
+    mainNav.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menuToggle.setAttribute('aria-label', 'فتح القائمة');
+        mainNav.classList.remove('is-open');
+      });
+    });
+  }
 
   document.querySelectorAll('.login-open').forEach((button) => {
     button.addEventListener('click', () => {
+      if (!loginDialog || !loginForm || !formMessage) return;
       formMessage.textContent = '';
       formMessage.classList.remove('success');
       loginDialog.showModal();
-      document.getElementById('username').focus();
+      const usernameInput = loginForm.querySelector('input[name="username"]');
+      if (usernameInput) usernameInput.focus();
     });
   });
 
-  document.getElementById('dialogClose').addEventListener('click', () => loginDialog.close());
-  loginDialog.addEventListener('click', (event) => {
-    if (event.target === loginDialog) loginDialog.close();
-  });
+  if (loginDialog) {
+    document.getElementById('dialogClose')?.addEventListener('click', () => loginDialog.close());
+    loginDialog.addEventListener('click', (event) => {
+      if (event.target === loginDialog) loginDialog.close();
+    });
+  }
 
-  loginForm.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    formMessage.textContent = '';
-    formMessage.classList.remove('success');
-    submitLogin.disabled = true;
-    submitLogin.textContent = 'جارٍ تسجيل الدخول…';
+  if (loginForm && formMessage && submitLogin) {
+    loginForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const usernameInput = loginForm.querySelector('input[name="username"]');
+      const passwordInput = loginForm.querySelector('input[name="password"]');
 
-    try {
-      const response = await fetch('/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          username: loginForm.elements.username.value.trim(),
-          password: loginForm.elements.password.value,
-        }),
-      });
-      const data = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(data.error || 'تعذر تسجيل الدخول. حاول مرة أخرى.');
-
-      if (['admin', 'supervisor'].includes(data.user?.role)) {
-        window.location.assign('/account.html');
+      if (!usernameInput || !passwordInput) {
+        formMessage.textContent = 'نموذج تسجيل الدخول غير كامل.';
         return;
       }
-      const statusText = data.user?.status === 'active'
-        ? 'حسابك نشط ويمكنك متابعة طلباتك.'
-        : 'تم تسجيل الدخول. حسابك بانتظار مراجعة الإدارة.';
-      formMessage.textContent = `أهلاً ${data.user?.name || ''} — ${statusText}`;
-      formMessage.classList.add('success');
-      loginForm.reset();
-    } catch (error) {
-      formMessage.textContent = error.message || 'تعذر الاتصال بالخادم. تحقق من اتصالك وحاول مجدداً.';
-    } finally {
-      submitLogin.disabled = false;
-      submitLogin.innerHTML = 'تسجيل الدخول <span aria-hidden="true">←</span>';
-    }
-  });
+
+      formMessage.textContent = '';
+      formMessage.classList.remove('success');
+      submitLogin.disabled = true;
+      submitLogin.textContent = 'جارٍ تسجيل الدخول…';
+
+      try {
+        const response = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            username: usernameInput.value.trim(),
+            password: passwordInput.value,
+          }),
+        });
+
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          throw new Error(data.error || 'تعذر تسجيل الدخول. حاول مرة أخرى.');
+        }
+
+        if (['admin', 'supervisor'].includes(data.user?.role)) {
+          window.location.assign('/account.html');
+          return;
+        }
+
+        const statusText = data.user?.status === 'active'
+          ? 'حسابك نشط ويمكنك متابعة طلباتك.'
+          : 'تم تسجيل الدخول. حسابك بانتظار مراجعة الإدارة.';
+
+        formMessage.textContent = `أهلاً ${data.user?.name || ''} — ${statusText}`;
+        formMessage.classList.add('success');
+        loginForm.reset();
+      } catch (error) {
+        formMessage.textContent = error.message || 'تعذر الاتصال بالخادم. تحقق من اتصالك وحاول مجدداً.';
+      } finally {
+        submitLogin.disabled = false;
+        submitLogin.innerHTML = 'تسجيل الدخول <span aria-hidden="true">←</span>';
+      }
+    });
+  }
 });
