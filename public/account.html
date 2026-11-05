@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f6f7f2" />
+  <title>لوحة الإدارة | سند الصحي</title>
+  <link rel="stylesheet" href="/account.css" />
+  <script src="/account.js" defer></script>
+</head>
+<body class="account-body">
+  <header class="account-header">
+    <a class="account-brand" href="/" aria-label="سند الصحي"><span class="brand-symbol">✳</span><span><strong>سند</strong><small>الصحي</small></span></a>
+    <div class="account-header-actions"><a class="back-link" href="/">العودة للموقع</a><button class="button button-quiet" id="logoutButton" type="button">تسجيل الخروج</button></div>
+  </header>
+  <main class="account-shell">
+    <section class="welcome-row">
+      <div><p class="eyebrow">مساحة العمل</p><h1 id="welcomeTitle">جارٍ التحقق من الحساب…</h1><p id="welcomeSubtitle" class="muted">يتم تحميل لوحة التحكم الآمنة.</p></div>
+      <span class="role-badge" id="roleBadge">...</span>
+    </section>
+    <div class="notice" id="pageNotice" role="status" aria-live="polite" hidden></div>
+    <section class="dashboard-grid" id="dashboardGrid" hidden>
+      <article class="panel stats-panel" id="statsPanel" hidden>
+        <div class="panel-heading"><div><p class="eyebrow">نظرة عامة</p><h2>ملخص الطلبات والعضويات</h2></div><button class="button button-quiet refresh-button" data-action="refresh" type="button">تحديث</button></div>
+        <div class="stats-grid" id="statsGrid"><p class="muted">جارٍ تحميل الإحصائيات…</p></div>
+      </article>
+      <article class="panel" id="requestsPanel" hidden>
+        <div class="panel-heading"><div><p class="eyebrow">متابعة الطلبات</p><h2>طلبات المستفيدين</h2></div><button class="button button-quiet refresh-button" data-action="requests" type="button">تحديث</button></div>
+        <div class="filter-row"><label class="search-field"><span class="visually-hidden">بحث في الطلبات</span><input id="requestSearch" type="search" placeholder="ابحث بالاسم أو المستخدم أو الجوال" /></label><select id="requestStatus" aria-label="تصفية حسب حالة الطلب"><option value="all">كل الحالات</option><option value="pending">قيد المراجعة</option><option value="reviewed">تمت المراجعة</option><option value="needs_info">بحاجة لمعلومات</option><option value="approved">مقبول</option><option value="rejected">مرفوض</option></select></div>
+        <div class="table-wrap"><table><thead><tr><th>المستفيد</th><th>الفئة</th><th>حالة الطلب</th><th>تاريخ التقديم</th><th>الإجراء</th></tr></thead><tbody id="requestsTable"><tr><td colspan="5" class="empty-cell">جارٍ تحميل الطلبات…</td></tr></tbody></table></div>
+      </article>
+      <article class="panel" id="membersPanel" hidden>
+        <div class="panel-heading"><div><p class="eyebrow">إدارة المستفيدين</p><h2>المستفيدون</h2></div><button class="button button-quiet refresh-button" data-action="members" type="button">تحديث</button></div>
+        <div class="table-wrap"><table><thead><tr><th>الاسم</th><th>اسم المستخدم</th><th>الجوال</th><th>الحالة</th></tr></thead><tbody id="membersTable"><tr><td colspan="4" class="empty-cell">جارٍ تحميل القائمة…</td></tr></tbody></table></div>
+      </article>
+      <article class="panel permissions-panel" id="permissionsPanel" hidden>
+        <div class="panel-heading"><div><p class="eyebrow">إدارة الوصول</p><h2>صلاحيات المدير والمشرفين</h2><p class="panel-description">صلاحيات المدير كاملة دائماً. اختر ما يحتاجه كل مشرف، وسيطبق الخادم الصلاحيات عند كل طلب.</p></div></div>
+        <div class="admin-lock"><span class="lock-icon" aria-hidden="true">✓</span><div><strong>حساب المدير العام</strong><p>لديك جميع صلاحيات الإدارة. لا يمكن إلغاء صلاحيات المدير أو تفويضها لحساب آخر.</p></div><span class="all-access">وصول كامل</span></div>
+        <form class="create-supervisor" id="createSupervisorForm">
+          <h3>إضافة مشرف</h3><div class="form-grid">
+            <label>الاسم الكامل<input name="name" required minlength="3" maxlength="120" autocomplete="name" /></label>
+            <label>اسم المستخدم<input name="username" required minlength="3" maxlength="35" pattern="[A-Za-z0-9._-]+" autocomplete="username" /></label>
+            <label>رقم الجوال<input name="phone" required pattern="05[0-9]{8}" inputmode="numeric" placeholder="05xxxxxxxx" /></label>
+            <label>كلمة المرور<input name="password" type="password" required minlength="8" autocomplete="new-password" /></label>
+          </div>
+          <fieldset class="permission-fieldset"><legend>الصلاحيات الأولية</legend><div class="permission-options" id="newSupervisorPermissions"></div></fieldset>
+          <div class="form-footer"><p class="form-feedback" id="createFeedback" role="status"></p><button class="button button-primary" type="submit">إنشاء حساب المشرف</button></div>
+        </form>
+        <div class="supervisors-heading"><h3>حسابات المشرفين</h3><button class="button button-quiet refresh-button" data-action="supervisors" type="button">تحديث القائمة</button></div>
+        <div class="supervisor-list" id="supervisorList"><p class="muted">جارٍ تحميل المشرفين…</p></div>
+      </article>
+      <article class="panel account-panel" id="accountPanel">
+        <div class="panel-heading"><div><p class="eyebrow">حسابي</p><h2>معلومات الحساب</h2></div></div>
+        <div class="profile-info" id="profileInfo"></div>
+      </article>
+    </section>
+    <section class="access-denied" id="accessDenied" hidden><span>↗</span><h2>هذه الصفحة مخصصة لفريق الإدارة</h2><p>حسابك لا يملك صلاحية الوصول إلى لوحة الإدارة. يمكنك العودة إلى الموقع أو تسجيل الخروج.</p><a class="button button-primary" href="/">العودة إلى الرئيسية</a></section>
+    <noscript><p class="notice">تحتاج لوحة التحكم إلى تفعيل JavaScript.</p></noscript>
+  </main>
+  <dialog class="review-dialog" id="reviewDialog"><form id="reviewForm"><button class="dialog-x" type="button" id="closeReview" aria-label="إغلاق">×</button><p class="eyebrow">إجراء على الطلب</p><h2 id="reviewTitle">مراجعة الطلب</h2><p id="reviewPerson" class="muted"></p><label for="reviewNote">ملاحظة للفريق أو المستفيد</label><textarea id="reviewNote" rows="4" maxlength="600" placeholder="اكتب ملاحظة مختصرة…"></textarea><p class="form-feedback" id="reviewFeedback" role="status"></p><div class="dialog-actions" id="reviewActions"></div></form></dialog>
+</body>
+</html>

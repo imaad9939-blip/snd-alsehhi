@@ -57,6 +57,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(data.error || 'تعذر تسجيل الدخول. حاول مرة أخرى.');
 
+      if (['admin', 'supervisor'].includes(data.user?.role)) {
+        window.location.assign('/account.html');
+        return;
+      }
       const statusText = data.user?.status === 'active'
         ? 'حسابك نشط ويمكنك متابعة طلباتك.'
         : 'تم تسجيل الدخول. حسابك بانتظار مراجعة الإدارة.';
