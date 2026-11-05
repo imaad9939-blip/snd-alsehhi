@@ -1,25 +1,73 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const result = document.getElementById('result');
-  const button = document.getElementById('healthBtn');
+  const menuToggle = document.getElementById('menuToggle');
+  const mainNav = document.getElementById('mainNav');
+  const loginDialog = document.getElementById('loginDialog');
+  const loginForm = document.getElementById('loginForm');
+  const formMessage = document.getElementById('formMessage');
+  const submitLogin = document.getElementById('submitLogin');
+  const year = document.getElementById('year');
 
-  const render = (payload) => {
-    result.textContent = JSON.stringify(payload, null, 2);
-  };
+  year.textContent = new Date().getFullYear();
 
-  button.addEventListener('click', async () => {
-    try {
-      const response = await fetch('/api/me', { headers: { accept: 'application/json' } });
-      if (response.status === 401) {
-        render({ ok: false, status: 401, message: 'المستخدم غير مسجل دخول' });
-        return;
-      }
-
-      const data = await response.json().catch(() => ({}));
-      render({ ok: response.ok, status: response.status, data });
-    } catch (error) {
-      render({ ok: false, error: error.message });
-    }
+  menuToggle.addEventListener('click', () => {
+    const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
+    menuToggle.setAttribute('aria-expanded', String(!expanded));
+    menuToggle.setAttribute('aria-label', expanded ? 'فتح القائمة' : 'إغلاق القائمة');
+    mainNav.classList.toggle('is-open', !expanded);
   });
 
-  render({ ok: true, message: 'واجهة الموقع جاهزة' });
+  mainNav.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      menuToggle.setAttribute('aria-expanded', 'false');
+      menuToggle.setAttribute('aria-label', 'فتح القائمة');
+      mainNav.classList.remove('is-open');
+    });
+  });
+
+  document.querySelectorAll('.login-open').forEach((button) => {
+    button.addEventListener('click', () => {
+      formMessage.textContent = '';
+      formMessage.classList.remove('success');
+      loginDialog.showModal();
+      document.getElementById('username').focus();
+    });
+  });
+
+  document.getElementById('dialogClose').addEventListener('click', () => loginDialog.close());
+  loginDialog.addEventListener('click', (event) => {
+    if (event.target === loginDialog) loginDialog.close();
+  });
+
+  loginForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    formMessage.textContent = '';
+    formMessage.classList.remove('success');
+    submitLogin.disabled = true;
+    submitLogin.textContent = 'جارٍ تسجيل الدخول…';
+
+    try {
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          username: loginForm.elements.username.value.trim(),
+          password: loginForm.elements.password.value,
+        }),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error || 'تعذر تسجيل الدخول. حاول مرة أخرى.');
+
+      const statusText = data.user?.status === 'active'
+        ? 'حسابك نشط ويمكنك متابعة طلباتك.'
+        : 'تم تسجيل الدخول. حسابك بانتظار مراجعة الإدارة.';
+      formMessage.textContent = `أهلاً ${data.user?.name || ''} — ${statusText}`;
+      formMessage.classList.add('success');
+      loginForm.reset();
+    } catch (error) {
+      formMessage.textContent = error.message || 'تعذر الاتصال بالخادم. تحقق من اتصالك وحاول مجدداً.';
+    } finally {
+      submitLogin.disabled = false;
+      submitLogin.innerHTML = 'تسجيل الدخول <span aria-hidden="true">←</span>';
+    }
+  });
 });

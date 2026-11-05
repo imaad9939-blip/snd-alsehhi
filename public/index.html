@@ -1,23 +1,115 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>سند الصحي</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f7f8f2" />
+    <meta name="description" content="سند الصحي يساعدك على الوصول إلى برامج الفحص والمتابعة الصحية بخطوات واضحة ودعم موثوق." />
+    <title>سند الصحي | صحتك أقرب</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <main class="container">
-      <div class="card">
-        <p class="eyebrow">Sanad Health</p>
-        <h1>مرحباً بك في سند الصحي</h1>
-        <p class="message">
-          تم إعداد الخادم بشكل صحيح، لكن هذا الموقع يحتاج إلى واجهة ثابتة للمستخدم.
-        </p>
-        <button id="healthBtn" type="button">فحص الحالة</button>
-        <pre id="result">جارٍ التحقق...</pre>
+    <header class="site-header">
+      <div class="nav-wrap">
+        <a class="brand" href="#home" aria-label="سند الصحي - الرئيسية">
+          <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M20 34S6 26 6 15.5A7.5 7.5 0 0 1 20 12a7.5 7.5 0 0 1 14 3.5C34 26 20 34 20 34Z"/><path class="brand-cross" d="M20 14v12M14 20h12"/></svg></span>
+          <span class="brand-copy"><strong>سند</strong><small>الصحي</small></span>
+        </a>
+        <button class="menu-toggle" id="menuToggle" type="button" aria-label="فتح القائمة" aria-expanded="false" aria-controls="mainNav"><span></span><span></span></button>
+        <nav class="main-nav" id="mainNav" aria-label="القائمة الرئيسية">
+          <a href="#about">عن سند</a>
+          <a href="#services">ماذا نقدم</a>
+          <a href="#steps">خطوات الاستفادة</a>
+          <a href="#faq">أسئلة شائعة</a>
+        </nav>
+        <button class="button button-small button-outline login-open" type="button">دخول المستفيدين <span aria-hidden="true">↗</span></button>
       </div>
+    </header>
+
+    <main id="home">
+      <section class="hero section-shell">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="eyebrow-dot"></span> رعاية أقرب، وخطوات أوضح</p>
+          <h1>لأن صحتك<br />تستحق <span>سنداً.</span></h1>
+          <p class="hero-lead">نقرّب لك الوصول إلى برامج الفحص والمتابعة الصحية، ونرافقك بمعلومات واضحة في كل خطوة.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#steps">اكتشف كيف نساعدك <span aria-hidden="true">←</span></a>
+            <a class="text-link" href="#about"><span class="play-icon" aria-hidden="true">↓</span> تعرّف على سند</a>
+          </div>
+          <div class="hero-note"><span class="note-icon" aria-hidden="true">✓</span><span>معلومات واضحة، وخصوصيتك دائماً أولوية</span></div>
+        </div>
+
+        <div class="hero-art" aria-label="رعاية صحية ودعم في كل خطوة">
+          <div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div>
+          <div class="art-sun"></div>
+          <div class="art-card art-card-main">
+            <div class="art-card-top"><span class="tiny-label">رحلتك مع سند</span><span class="live-dot" aria-label="متاحون لدعمك"></span></div>
+            <div class="heart-illustration"><svg viewBox="0 0 180 170" role="img" aria-label="قلب ورمز الرعاية"><path class="heart-shadow" d="M90 148S23 109 23 62a35 35 0 0 1 64-19 35 35 0 0 1 70 19c0 47-67 86-67 86Z"/><path class="heart-line" d="M45 88h28l12-23 20 48 13-25h20"/><circle cx="90" cy="86" r="68" class="heart-ring"/></svg></div>
+            <p class="art-caption">خطوة صغيرة<br /><strong>تصنع فرقاً كبيراً</strong></p>
+          </div>
+          <div class="floating-tag tag-top"><span class="tag-icon tag-icon-green">✳</span><span><strong>معك خطوة بخطوة</strong><small>من البداية وحتى المتابعة</small></span></div>
+          <div class="floating-tag tag-bottom"><span class="tag-icon tag-icon-peach">♡</span><span><strong>اهتمام يليق بك</strong><small>رعاية إنسانية ومعلومات موثوقة</small></span></div>
+          <span class="art-spark spark-one" aria-hidden="true">✳</span><span class="art-spark spark-two" aria-hidden="true">✦</span>
+        </div>
+        <div class="hero-bottom"><span>01 — 03</span><span class="bottom-line"></span><span>طريق أوضح لصحتك</span></div>
+      </section>
+
+      <section class="intro-section" id="about">
+        <div class="section-shell intro-grid">
+          <div><p class="eyebrow">عن سند الصحي</p><h2>الصحة رحلة،<br /><span>ونحن معك فيها.</span></h2></div>
+          <div class="intro-text"><p>سند الصحي مساحة تساعدك على الوصول إلى برامج الفحص والمتابعة المناسبة، وتسهّل عليك معرفة الخطوات المطلوبة والتواصل مع فريق الدعم.</p><a class="under-link" href="#services">اكتشف خدماتنا <span aria-hidden="true">←</span></a></div>
+        </div>
+      </section>
+
+      <section class="services-section section-shell" id="services">
+        <div class="section-heading"><div><p class="eyebrow">كيف نساندك؟</p><h2>دعم واضح، في كل مرحلة</h2></div><p>نساعدك على تنظيم رحلتك الصحية<br class="desktop-break" /> والوصول إلى المعلومات التي تحتاجها.</p></div>
+        <div class="service-grid">
+          <article class="service-card"><span class="service-number">01</span><div class="service-icon icon-mint" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M24 7v34M7 24h34"/><circle cx="24" cy="24" r="18"/></svg></div><h3>الوصول للفحص</h3><p>تعرّف على خيارات الفحص والبرامج المتاحة، وابدأ بطلبك بخطوات مفهومة.</p><span class="card-arrow" aria-hidden="true">↙</span></article>
+          <article class="service-card"><span class="service-number">02</span><div class="service-icon icon-peach" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M14 9h20a3 3 0 0 1 3 3v27H11V12a3 3 0 0 1 3-3Z"/><path d="M18 18h12M18 25h12M18 32h7M19 6h10v6H19z"/></svg></div><h3>متابعة الطلب</h3><p>تابع حالة طلبك واعرف ما يلزمك من مستندات أو خطوات إضافية في الوقت المناسب.</p><span class="card-arrow" aria-hidden="true">↙</span></article>
+          <article class="service-card"><span class="service-number">03</span><div class="service-icon icon-blue" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M24 40s15-8 15-20a8 8 0 0 0-15-4 8 8 0 0 0-15 4c0 12 15 20 15 20Z"/><path d="M16 24h5l3-6 4 12 3-6h3"/></svg></div><h3>دعم إنساني</h3><p>فريقنا يحرص على أن تكون تجربتك واضحة ومحترمة، مع مراعاة خصوصية معلوماتك.</p><span class="card-arrow" aria-hidden="true">↙</span></article>
+        </div>
+      </section>
+
+      <section class="steps-section" id="steps">
+        <div class="section-shell steps-inner">
+          <div class="steps-heading"><p class="eyebrow eyebrow-light">بداية سهلة</p><h2>ثلاث خطوات،<br />والباقي علينا.</h2><p>ابدأ رحلتك الصحية بهدوء، وسنوضح لك ما تحتاج معرفته في كل مرحلة.</p><a class="button button-light" href="#faq">لديك سؤال؟ <span aria-hidden="true">←</span></a></div>
+          <div class="steps-list">
+            <article class="step-item"><span class="step-index">١</span><div><h3>أنشئ طلبك</h3><p>قدّم بياناتك الأساسية والمستندات اللازمة عبر القنوات المعتمدة.</p></div><span class="step-check" aria-hidden="true">↙</span></article>
+            <article class="step-item"><span class="step-index">٢</span><div><h3>نراجع طلبك</h3><p>يتابع الفريق طلبك، ويخبرك إذا احتجنا إلى أي معلومات إضافية.</p></div><span class="step-check" aria-hidden="true">↙</span></article>
+            <article class="step-item"><span class="step-index">٣</span><div><h3>تابع رحلتك</h3><p>بعد اكتمال المراجعة، يمكنك متابعة حالة طلبك والخطوات التالية.</p></div><span class="step-check" aria-hidden="true">✓</span></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="faq-section section-shell" id="faq">
+        <div class="faq-title"><p class="eyebrow">إجابات تهمك</p><h2>أسئلة شائعة</h2><p>إذا لم تجد إجابتك هنا، يسعدنا أن تتواصل مع فريق الدعم.</p></div>
+        <div class="faq-list">
+          <details><summary>ما هو سند الصحي؟<span aria-hidden="true">+</span></summary><p>سند الصحي منصة تساعد على تسهيل الوصول إلى برامج الفحص والمتابعة، وتوضيح خطوات تقديم الطلب ومتابعته.</p></details>
+          <details><summary>كيف أتابع حالة طلبي؟<span aria-hidden="true">+</span></summary><p>يمكنك تسجيل الدخول إلى حسابك لمتابعة الحالة والإشعارات المرتبطة بطلبك.</p></details>
+          <details><summary>هل يقدم سند تشخيصاً أو علاجاً طبياً؟<span aria-hidden="true">+</span></summary><p>لا. سند منصة مساندة لتنظيم الوصول إلى البرامج والمعلومات، ولا تُغني خدماته عن استشارة الطبيب أو مقدم الرعاية الصحية.</p></details>
+        </div>
+      </section>
+
+      <section class="closing-cta section-shell"><div class="closing-icon" aria-hidden="true">✳</div><div><p class="eyebrow">نحن هنا من أجلك</p><h2>خطوتك القادمة تبدأ<br class="mobile-break" /> بمعلومة واضحة.</h2></div><button class="button button-primary login-open" type="button">دخول المستفيدين <span aria-hidden="true">←</span></button></section>
     </main>
-    <script src="/app.js"></script>
+
+    <footer class="site-footer"><div class="section-shell footer-inner"><a class="brand footer-brand" href="#home"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M20 34S6 26 6 15.5A7.5 7.5 0 0 1 20 12a7.5 7.5 0 0 1 14 3.5C34 26 20 34 20 34Z"/><path class="brand-cross" d="M20 14v12M14 20h12"/></svg></span><span class="brand-copy"><strong>سند</strong><small>الصحي</small></span></a><p>معك في رحلتك نحو رعاية أوضح.</p><a class="footer-top" href="#home">العودة للأعلى ↑</a><small class="copyright">© <span id="year"></span> سند الصحي. جميع الحقوق محفوظة.</small></div></footer>
+
+    <dialog class="login-dialog" id="loginDialog" aria-labelledby="loginTitle">
+      <button class="dialog-close" id="dialogClose" type="button" aria-label="إغلاق">×</button>
+      <div class="dialog-mark" aria-hidden="true">✳</div>
+      <p class="eyebrow">مرحباً بعودتك</p><h2 id="loginTitle">دخول المستفيدين</h2><p class="dialog-description">سجّل الدخول لمتابعة طلبك وإشعاراتك.</p>
+      <form id="loginForm">
+        <label for="username">اسم المستخدم</label><input id="username" name="username" type="text" autocomplete="username" required minlength="3" />
+        <label for="password">كلمة المرور</label><input id="password" name="password" type="password" autocomplete="current-password" required />
+        <p class="form-message" id="formMessage" role="status" aria-live="polite"></p>
+        <button class="button button-primary form-submit" id="submitLogin" type="submit">تسجيل الدخول <span aria-hidden="true">←</span></button>
+      </form>
+      <p class="privacy-note">معلوماتك الشخصية محفوظة بسرية وأمان.</p>
+    </dialog>
+    <script src="/app.js" defer></script>
   </body>
 </html>
